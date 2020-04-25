@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Content;
+use App\Gender;
 
 class ContentController extends Controller
 {
@@ -12,11 +13,22 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $content = Content::paginate(20);
+        $content = Content::where(function($q)use($request){
+            if($request->input('name')){
+               $q->where('name','like','%'.$request->name.'%');
+            }
+            
+            if($request->input('gender_id')){
+               $q->where('gender_id',$request->gender_id);
+            }
+
+        })->latest()->paginate(20);
         return view('content.index', compact('content'));
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -27,8 +39,9 @@ class ContentController extends Controller
     public function edit(Request $request, $id)
     {
         $content = Content::findOrFail($id);
+        $gender = Gender::all()->pluck('name', 'id')->toArray();
     
-        return view('content.edit', compact('content'));
+        return view('content.edit', compact('content', 'gender'));
     }
 
     /**
@@ -45,14 +58,14 @@ class ContentController extends Controller
             'name' => 'required',
             'age' => 'required',
             'image' => 'required',
-            'gender' => 'required'
+            'gender_id' => 'required'
         ];
 
         $message = [
             'name.required' => 'Name is required',
             'age.required' => 'Age is required',
             'image.required' => 'Image is required',
-            'gender.required' => 'Gender is required'
+            'gender_id.required' => 'Gender is required'
         ];
         $this->validate($request,$rules,$message);
         $content= Content::findOrFail($id);
@@ -79,7 +92,19 @@ class ContentController extends Controller
     {
         $content = Content::findOrFail($id);
         $content->delete();
-        flash()->success('Deleted'); 
-       return back();
+        flash()->success('Deleted');
+        return response()->json([
+            'id' => $content->id
+        ]);
+    }
+
+    public function remove($id){
+
+        $record = Content::findOrFail($id);
+        $record->delete();
+        return response()->json([
+            'id' => $record->id
+        ]);
+
     }
 }

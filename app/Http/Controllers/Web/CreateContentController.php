@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Content;
 
-class ContentController extends Controller
+class CreateContentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,10 +23,7 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('content.create');
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -40,14 +37,14 @@ class ContentController extends Controller
             'name' => 'required',
             'age' => 'required',
             'image' => 'required',
-            'gender' => 'required'
+            'gender_id' => 'required'
         ];
 
         $message = [
             'name.required' => 'Name is required',
             'age.required' => 'Age is required',
             'image.required' => 'Image is required',
-            'gender.required' => 'Gender is required'
+            'gender_id.required' => 'Gender is required'
         ];
         $this->validate($request,$rules,$message);
 
@@ -60,7 +57,7 @@ class ContentController extends Controller
            $content->save();
         }
         flash()->success('Success');
-        return redirect(route('content.create'));
+        return redirect('/create/content');
     }
 
     /**

@@ -1,11 +1,11 @@
 <div class="form-group">
     <label for="name">Name</label>
-        {!! Form::text('name' , $content->name, [
+        {!! Form::text('name' , null, [
            'class' => 'form-control'
         ]) !!}
 
     <label for="age">Age</label>
-        {!! Form::text('age' , $content->age, [
+        {!! Form::text('age' , null, [
            'class' => 'form-control'
         ]) !!}
 
@@ -16,11 +16,11 @@
     </br>
 
     <label for="gender_id">Gender</label>
-        {!! Form::select('gender_id',$gender,$content->gender->id, [
+        {!! Form::select('gender_id',$gender->pluck('name', 'id')->toArray()  ,null, [
            'class' => 'form-control'
         ]) !!}
 </div>
 
 <div class="form-group">
-    <button class="btn btn-primary">Submit</button>
+    <button id = "save" class="btn btn-primary">Submit</button>
 </div>

@@ -23,17 +23,18 @@
             <h2>Form</h2>
         </div>
         @inject('model','App\Content')
+        @inject('gender','App\Gender')
         <div class="box-body">
 
           @include('errors')
           @include('flash::message')
 
           {!! Form::model($model,[
-            'action' => 'Web\ContentController@store',
+            'action' => 'Web\CreateContentController@store',
             'files' => true
           ]) !!}
             
-          @include('content.form')
+          @include('content.createForm')
            
           {!! Form::close() !!}
         <!-- /.box-body -->

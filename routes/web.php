@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'Web'], function(){
-	Route::resource('content', 'ContentController');
+	Route::resource('create/content', 'CreateContentController');
 
 });
 
@@ -25,4 +25,12 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 	Route::resource('content', 'ContentController');
+	Route::post('/delete/{id}', 'ContentController@remove')->name('content.remove');
+});
+
+
+Route::group(['prefix' => 'ajax'], function(){
+	Route::get('create', 'AjaxController@create');
+	Route::post('store', 'AjaxController@store')->name('ajax.store');
+	
 });

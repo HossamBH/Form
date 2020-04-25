@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <title>Form</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -56,7 +58,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                           <img src="{{asset('adminlte/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
-                          <span class="hidden-xs">{{auth()->user()->name}}</span>
+                          <span class="hidden-xs">{{isset(auth()->user()->name) ? auth()->user()->name : null}}</span>
                         </a>
                         <ul class="dropdown-menu">
                           <!-- User image -->
@@ -64,7 +66,7 @@
                             <img src="{{asset('adminlte/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
                             <p>
-                              {{auth()->user()->name}}
+                              {{isset(auth()->user()->name) ? auth()->user()->name : null}}
                             </p>
                           </li>
                           <!-- Menu Footer-->
@@ -92,7 +94,7 @@
           <img src="{{asset('adminlte/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{auth()->user()->name}}</p>
+          <p>{{isset(auth()->user()->name) ? auth()->user()->name : null}}</p>
         </div>
       </div>
 
